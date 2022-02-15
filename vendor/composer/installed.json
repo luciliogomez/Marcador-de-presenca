@@ -1,0 +1,145 @@
+{
+    "packages": [
+        {
+            "name": "twbs/bootstrap",
+            "version": "v5.1.3",
+            "version_normalized": "5.1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "1a6fdfae6be09b09eaced8f0e442ca6f7680a61e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/1a6fdfae6be09b09eaced8f0e442ca6f7680a61e",
+                "reference": "1a6fdfae6be09b09eaced8f0e442ca6f7680a61e",
+                "shasum": ""
+            },
+            "replace": {
+                "twitter/bootstrap": "self.version"
+            },
+            "time": "2021-10-09T06:43:19+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                },
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "https://getbootstrap.com/",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "mobile-first",
+                "responsive",
+                "sass",
+                "web"
+            ],
+            "support": {
+                "issues": "https://github.com/twbs/bootstrap/issues",
+                "source": "https://github.com/twbs/bootstrap/tree/v5.1.3"
+            },
+            "install-path": "../twbs/bootstrap"
+        },
+        {
+            "name": "william-costa/database-manager",
+            "version": "v0.1.0",
+            "version_normalized": "0.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/william-costa/database-manager.git",
+                "reference": "ed871363f27251a882b9e5dc036dcac566b271c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/william-costa/database-manager/zipball/ed871363f27251a882b9e5dc036dcac566b271c4",
+                "reference": "ed871363f27251a882b9e5dc036dcac566b271c4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "time": "2021-03-19T18:51:35+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "WilliamCosta\\DatabaseManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "William Costa",
+                    "email": "canalwdev@gmail.com"
+                }
+            ],
+            "description": "A simple library for managing database connections, results pagination and building queries in PHP.",
+            "support": {
+                "issues": "https://github.com/william-costa/database-manager/issues",
+                "source": "https://github.com/william-costa/database-manager/tree/v0.1.0"
+            },
+            "install-path": "../william-costa/database-manager"
+        },
+        {
+            "name": "william-costa/dot-env",
+            "version": "v0.1.0",
+            "version_normalized": "0.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/william-costa/dot-env.git",
+                "reference": "e5eb9b0384b57f2812215fab0e3853c16a4b368e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/william-costa/dot-env/zipball/e5eb9b0384b57f2812215fab0e3853c16a4b368e",
+                "reference": "e5eb9b0384b57f2812215fab0e3853c16a4b368e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "time": "2021-03-19T19:28:14+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "WilliamCosta\\DotEnv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "William Costa",
+                    "email": "canalwdev@gmail.com"
+                }
+            ],
+            "description": "A simple library for managing environment variables in PHP.",
+            "support": {
+                "issues": "https://github.com/william-costa/dot-env/issues",
+                "source": "https://github.com/william-costa/dot-env/tree/v0.1.0"
+            },
+            "install-path": "../william-costa/dot-env"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

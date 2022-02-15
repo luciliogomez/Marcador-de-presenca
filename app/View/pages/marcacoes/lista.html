@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col s12 ">
+        <a href="nova-marcacao" class="btn blue">Nova Marcação</a>
+        <a href="relatorio" class="btn deep-orange darken-2 right">Gerar Relatorio</a>
+    </div>
+</div>
+<div class="row">
+    <form action="" method="post" class="form-horizontal-one-line ">
+            <div class="col s12 m2 input-field ">
+                {{turmas}}
+                <label>Turma</label>
+            </div>
+            <div class="col s6 m2 input-field">
+                <span></span>
+                <input type="date" name="data" id="data" value="" placeholder="">
+            </div>
+            <div class="col s6 m2 btn-buscar">
+                <input type="submit" value="Buscar" name="buscar" class="btn green">
+            </div>
+            <div class="col s6 m3 " style="margin-top: 10px;">
+                {{status}}
+            </div>
+    </form>
+</div>
+
+<div class="row">
+    {{tabela}}
+</div>
+{{pagination}}

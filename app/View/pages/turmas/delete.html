@@ -1,0 +1,21 @@
+<div class="">
+    <form action="" method="post">
+        <input type="hidden" name="id_turma" value="{{id_turma}}">
+        <div class="row">
+            <div class="col s12 center">
+                <p class="center" style="font-size: x-large;">
+                    A turma <span style="font-size: x-large;font-weight: bold;">{{descricao}}</span> 
+                    será removida. Deseja Continuar?
+                </p>
+            </div>
+        </div>
+        <div class="row center">
+            <div class="col s12">
+                <input type="submit" value="Confirmar" name='add' class="btn green">
+                <a href="turmas" class="btn red">Cancelar</a>
+            </div>
+        </div>
+            <p class='erro red-text center'>{{erro}}</p>
+        
+    </form>
+</div>            

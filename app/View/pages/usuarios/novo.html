@@ -1,0 +1,26 @@
+<div class="formulario">
+    <form action="" method="post">
+        <div class="row">
+            <div class="col s12 m5 input-field">
+                <input type="text" name="nome" value="{{nome}}">
+                <label for="nome">Nome</label>
+            </div>
+            <div class="col s12 m5 push-m1 input-field">
+                <input type="email" name="email" value="{{email}}">
+                <label for="email">Email</label>
+            </div>
+            <div class="col s12 m5  input-field">
+                {{acessos}}
+                <label>Acesso</label>
+            </div>
+            
+        </div>
+        <div class="row center">
+            <div class="col s12">
+                <input type="submit" value="Adicionar" name='add' class="btn green">
+                <a href="usuarios" class="btn red">Cancelar</a>
+            </div>
+        </div>
+            <p class='erro red-text center'>{{erro}}</p>
+    </form>
+</div>            

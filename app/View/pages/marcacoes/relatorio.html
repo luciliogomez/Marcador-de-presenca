@@ -1,0 +1,29 @@
+                    <div class="row">
+                        <form action="" method="post" class="form-horizontal-one-line ">
+                            <div class="row">
+                                <div class="col s12 m2  input-field ">
+                                    {{turmas}}
+                                    <label for="turma">Turma</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                            <fieldset>
+                                    <legend>Escolha o periodo</legend>
+                                    <div class="col s6 m2 input-field">
+                                        <span class="label">Inicio</span>
+                                        <input type="date" name="inicio" id="data"  placeholder="">
+                                    </div>
+                                    <div class="col s6 m2 input-field">
+                                        <span class="label">Fim</span>
+                                        <input type="date" name="fim" id="data"  placeholder="">
+                                    </div>
+                                    </fieldset>
+                            </div>
+                            {{status}}
+                            <div class="row">       
+                                <div class="col s6 m5 btn-buscar">
+                                    <input type="submit" value="Gerar" name="gerar" class="btn green">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
