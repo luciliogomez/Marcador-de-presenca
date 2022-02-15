@@ -11,7 +11,7 @@
 ## Tecnologias e Ferramentas de Desenvolvimento utilizadas:
 * PHP 7
 * Mysql
-* Html,Css,JavaScript, Biblioteca Frontend Materialize
+* Html, Css, JavaScript, Biblioteca Frontend Materialize
 * Biblioteca <a href="https://packagist.org/packages/dompdf/dompdf" target="_blank">Dompdf</a>
 * Padrão de Desenvolvimento MVC
 ##
@@ -23,8 +23,8 @@
 
 ## Instruções de instalação:
 * Crie um banco de dados em localhost ou online
-* Importe o marcacoes.sql que está dentro da pasta Database para o banco que você criou.
-* edite o arquivo de configuração de ambiente ".env" de acordo com o seu ambiente.
+* Importe o arquivo "marcacoes.sql" que está dentro da pasta Database para o banco que você criou.
+* Edite o arquivo de configuração de ambiente ".env" de acordo com o seu ambiente.
 ##
 
 #### O Sistema é distribuído de forma gratuita, sendo o seu código livre para quaisquer alterações.

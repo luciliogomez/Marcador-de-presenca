@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 15-Fev-2022 às 00:48
+-- Tempo de geração: 15-Fev-2022 às 02:59
 -- Versão do servidor: 10.4.19-MariaDB
 -- versão do PHP: 7.4.19
 
@@ -42,17 +42,17 @@ INSERT INTO `estudantes` (`id`, `nome`, `email`, `data_de_nascimento`) VALUES
 (1, 'Lucílio Gomes', 'luciliodetales@gmail.com', '1999-06-01'),
 (2, 'Eliúde Carvalho', 'eliude@gmail.com', '2000-02-21'),
 (3, 'Pedro Domingos', 'pedro@gmail.com', '1998-06-01'),
-(4, 'Ludmilo Cambambi', 'ludmilo@gmail.com', '1998-10-01'),
-(5, 'Edson Chauvunge', 'edson@gmail.com', '1999-03-29'),
-(6, 'Yuri Rego', 'yuri@gmail.com', '1999-12-31'),
-(7, 'Rogerio Tuzolana', 'rogerio@gmail.com', '2000-04-24'),
-(8, 'Isabel José', 'isabels@gmail.com', '2001-02-10'),
-(9, 'Lussevádio Manuel', 'lussevadio@gmail.com', '1997-09-10'),
-(10, 'Julio Manuel', 'julio@gmail.com', '2000-05-01'),
-(11, 'Jacinto Malungo', 'jacinto@gmail.com', '1996-07-07'),
-(12, 'Fátima Daniel', 'fatima@gmail.com', '1999-03-01'),
-(13, 'Elizabeth Cristina', 'elizabeth@gmail.com', '2000-08-01'),
-(14, 'Lando Garcia', 'lando@gmail.com', '0000-00-00'),
+(4, 'Milo Bambi', 'ludmilo@gmail.com', '1998-10-01'),
+(5, 'Edson Carlos', 'edson@gmail.com', '1999-03-29'),
+(6, 'Yuri Silva', 'yuri@gmail.com', '1999-12-31'),
+(7, 'Rogerio Jorge', 'rogerio@gmail.com', '2000-04-24'),
+(8, 'Isabel Aragão', 'isabels@gmail.com', '2001-02-10'),
+(9, 'Lucas Manuel', 'lucas@gmail.com', '1997-09-10'),
+(10, 'Julio Armando', 'julio@gmail.com', '2000-05-01'),
+(11, 'Jacinto Felix', 'jacinto@gmail.com', '1996-07-07'),
+(12, 'Fátima Filipe', 'fatima@gmail.com', '1999-03-01'),
+(13, 'Eliza Pereira', 'eliza@gmail.com', '2000-08-01'),
+(14, 'Garcia Carlos', 'lando@gmail.com', '0000-00-00'),
 (15, 'Victor Daniel', 'victor@gmail.com', '1999-01-08'),
 (16, 'Joana Cassinda', 'joana@gmail.com', '1999-05-12'),
 (17, 'Joana Cassinda', 'joana@gmail.com', '0000-00-00'),
@@ -64,14 +64,14 @@ INSERT INTO `estudantes` (`id`, `nome`, `email`, `data_de_nascimento`) VALUES
 (23, 'Maria', 'maria@gmail.com', '2002-02-06'),
 (25, 'Pedrito Costa', 'pedrito@gmail.com', '1999-02-02'),
 (26, 'Marilu Silva', 'marilu@gmail.com', '2000-03-02'),
-(27, 'Victor', 'luciliodetales@gmail.com', '2022-01-11'),
+(27, 'Victor', 'vic@gmail.com', '2022-01-11'),
 (28, 'Emilio Coxe', 'emi@gmail.com', '1999-02-02'),
 (29, 'Emilio Cruz', 'emilio@gmail.com', '2000-02-13'),
 (30, 'Emilio Cruz', 'emilio@gmail.com', '1999-12-12'),
 (31, 'Kaki', 'k@gmail.com', '1999-11-12'),
 (32, 'Lucílio Gomes', 'detales@gmail.com', '2000-11-11'),
-(33, 'Jacinto Malungo', 'malungo@gmail.com', '1995-12-12'),
-(34, 'Bibiana Filipe', 'bibi@gmail.com', '2000-12-12'),
+(33, 'Mauro', 'mauro@gmail.com', '1995-12-12'),
+(34, 'Bibiana Sousa', 'bibi@gmail.com', '2000-12-12'),
 (35, 'Lucílio Gomes', 'luciliodetales@gmail.com', '2007-02-07'),
 (36, 'Verissimo', 'veri@gmail.com', '1999-12-12');
 
@@ -255,9 +255,9 @@ CREATE TABLE `utilizadores` (
 
 INSERT INTO `utilizadores` (`id`, `name`, `email`, `password`, `acess`, `status`) VALUES
 (1, 'Lucílio Gomes', 'lucilio@gmail.com', '$2y$10$FIy4uIQaXg19NEYXVC3JOutn/DHXVZdBYoRYQVwuPBRA.iYMQJjTm', 'docente', 1),
-(2, 'Lufialuizo Sampaio', 'sampaio@gmail.com', '$2y$10$Jkn7aFL2gYfBlXfype0CaeZVggfnWtCQJyo5ms.CP96DgAKfxOcVe', 'docente', 1),
-(3, 'Amândio Almada', 'amandio@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'docente', 1),
-(4, 'Vicente Lopes', 'vicente@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'docente', 0),
+(2, 'Jorge Sampaio', 'sampaio@gmail.com', '$2y$10$Jkn7aFL2gYfBlXfype0CaeZVggfnWtCQJyo5ms.CP96DgAKfxOcVe', 'docente', 1),
+(3, 'Amândio Malungo', 'amandio@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'docente', 1),
+(4, 'Lopes Simao', 'vicente@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'docente', 0),
 (5, 'Administrador', 'admin@gmail.com', '$2y$10$7hiwm4QPo4YP6A362bdpheG0fY1Bv7OuXrggITnfK3aU2eHvmGGbi', 'admin', 1),
 (7, 'Victor', 'victor@gmail.com', '$2y$10$RT9RQu25/pry3OvvjRtvL.8ACWjunLZUMHIPzY.weWdCJHGhAnv1i', 'admin', 1),
 (8, 'DD', 'ddetales@gmail.com', '$2y$10$Sg2TKsC4ksWP9NEDJdEvberem1gGKiV27keT.S0MIYy869mfVIUzK', 'docente', 1),
