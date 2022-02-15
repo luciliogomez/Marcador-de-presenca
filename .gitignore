@@ -1,0 +1,6 @@
+
+!application/*/.htaccess
+!.htaccess
+
+!application/*/.env
+!.env
