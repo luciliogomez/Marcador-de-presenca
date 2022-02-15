@@ -8,6 +8,12 @@
 * Gestão de Utilizadores
 ##
 
+##  Layout do Projecto
+
+<br>
+
+<img src="./layout.png">
+
 ## Tecnologias e Ferramentas de Desenvolvimento utilizadas:
 * PHP 7
 * Mysql
