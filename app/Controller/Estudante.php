@@ -18,14 +18,14 @@ class Estudante extends Template{
         $turmaModel = new TurmaModel;
         $id_user = (int) $_SESSION['usuario']['id'];
 
-        $total = count($turmaModel->getMyEstudantesNaTurma($id_user));
+        $total = count(($_SESSION['usuario']['acess']=='admin')?$turmaModel->getAllEstudantesNaTurma(): $turmaModel->getMyEstudantesNaTurma($id_user));
           
         $queryParams = $request->getQueryParams();
         $page = $queryParams['page']?? '1';
         
         $pagination = new Pagination($total,$page,4);
 
-        $turmas = $turmaModel->getMyEstudantesNaTurma($id_user,$pagination->getLimit());
+        $turmas = ($_SESSION['usuario']['acess']=='admin')?$turmaModel->getAllEstudantesNaTurma($pagination->getLimit()): $turmaModel->getMyEstudantesNaTurma($id_user,$pagination->getLimit());
         $tabela = self::getTabela(["ID","Nome","Email","Turma","Accoes"],
                                     ($turmas),
                                         '/estudante',"id",0,false,false,true
@@ -36,7 +36,7 @@ class Estudante extends Template{
             'pagination' => self::getPagination($pagination,$request)
         ]);
 
-        return self::getTemplate("Estudantes","Estudante","Meus Estudantes",$content);
+        return self::getTemplate("Estudantes","Estudante",($_SESSION['usuario']['acess']=='admin')?"ESTUDANTES":"Meus Estudantes",$content);
     }
     
 
@@ -46,7 +46,7 @@ class Estudante extends Template{
     public static function novo()
     {
         $content = View::render("pages/estudantes/novo",[
-            'turmas' => self::getTurmas($_SESSION['usuario']['id']),
+            'turmas' => (($_SESSION['usuario']['acess']=='admin')? self::getTurmas() : self::getTurmas($_SESSION['usuario']['id'])),
             'erro'   => '',
             'nome'   => '',
             'email'  => ''
@@ -67,7 +67,7 @@ class Estudante extends Template{
             || empty($postVars['turma']) || empty($postVars['data']) 
         ){
             $content = View::render("pages/estudantes/novo",[
-                'turmas' => self::getTurmas(),
+                'turmas' => self::getTurmas($_SESSION['usuario']['id']),
                 'erro'   => 'Preencha os campos obrigatorios!',
                 'nome'   =>  $postVars['nome'] ?? '',
                 'email'  =>  $postVars['email'] ?? ''
@@ -85,7 +85,7 @@ class Estudante extends Template{
         $student =  $turmaModel->getEstudanteByEmail($email);
         if($student != null){
             $content = View::render("pages/estudantes/novo",[
-                'turmas' => self::getTurmas(),
+                'turmas' => self::getTurmas($_SESSION['usuario']['id']),
                 'erro'   => 'Email já em uso por outro Utilizador!',
                 'nome'   =>  $postVars['nome'] ?? '',
                 'email'  =>  $postVars['email'] ?? ''
@@ -114,7 +114,7 @@ class Estudante extends Template{
                 if($stmt->rowCount() >=1 ){
                     Conexao::getInstance()->commit();
                     $content = View::render("layout/result",[
-                        'message' => "Cliente Adicionado com sucesso!",
+                        'message' => "Estudante Adicionado com sucesso!",
                         'color'   => 'green'
                     ]);
                     return self::getTemplate("Estudantes","Resutados","Resultados",$content);
@@ -122,7 +122,7 @@ class Estudante extends Template{
                     $erros[] = "";
                     Conexao::getInstance()->rollback();
                     $content = View::render("pages/estudantes/novo",[
-                        'turmas' => self::getTurmas(),
+                        'turmas' => self::getTurmas($_SESSION['usuario']['id']),
                         'erro'   => 'Falha. Tente mais tarde!'
                     ]); 
                     return self::getTemplate("Estudantes","Estudante","ADICIONAR ESTUDANTE",$content);
@@ -140,7 +140,7 @@ class Estudante extends Template{
         catch(Exception $ex){
                 Conexao::getInstance()->rollback();
                     $content = View::render("pages/estudantes/novo",[
-                        'turmas' => self::getTurmas(),
+                        'turmas' => self::getTurmas($_SESSION['usuario']['id']),
                         'erro'   => 'Falha. Tente mais tarde!'.$ex->getMessage()
                     ]); 
                     return self::getTemplate("Estudantes","Estudante","ADICIONAR ESTUDANTE",$content);
@@ -218,89 +218,6 @@ class Estudante extends Template{
 
     }
 
-    
 
-    // metodo que pega o link para a pagina anterior da paginacao
-    public static function getPrevLink($pages, $request){
-
-        $links = '';
-        foreach($pages as $page)
-        {
-            $pageNumber = 0;
-            if($page['current']){
-              $pageNumber = intval($page['page']);  
-              
-              if( ($pageNumber) == 1 ){
-                $link = $request->getURI()."?page=".$page['page'];
-                
-                  return View::render("layout/pagination/item_left",[
-                    'link' => $link,
-                    'disabled' => 'disabled'
-                  ]);
-              }else{
-                $link = $request->getURI()."?page=".($pageNumber - 1);
-               
-                return View::render("layout/pagination/item_left",[
-                  'link' => $link,
-                  'disabled' => ''
-                ]);
-              }
-            
-            }
-        }
-    }
-
-    // metodo que pega o link para a pagina seguinte da paginacao
-    public static function getNextLink($pages, $request){
-
-        $links = '';
-        foreach($pages as $page)
-        {
-            $pageNumber = 0;
-            if($page['current']){
-              $pageNumber = intval($page['page']);  
-              
-              if( ($pageNumber + 1) > count($pages) ){
-                $link = $request->getURI()."?page=".$page['page'];
-                  return View::render("layout/pagination/item_right",[
-                    'link' => $link,
-                    'disabled' => 'disabled'
-                  ]);
-              }else{
-                $link = $request->getURI()."?page=".($pageNumber + 1);
-                return View::render("layout/pagination/item_right",[
-                  'link' => $link,
-                  'disabled' => ''
-                ]);
-              }
-            
-            }
-        }
-    }
-
-    // metodo que renderiza a paginacao
-    public static function getPagination($pagination,$request){
-        
-        $links = '';
-
-        foreach($pagination->getPages() as $page)
-        {
-            $link = $request->getURI()."?page=".$page['page'];
-            
-            $links .= View::render("layout/pagination/item",[
-                'link' => $link,
-                'item' => $page['page'],
-                'active' => ($page['current'])? 'active' :''
-            ]);
-        }
-        $prevLinK = self::getPrevLink($pagination->getPages(),$request);
-        $nextLink = self::getNextLink($pagination->getPages(),$request);
-        
-        $allLinks = $prevLinK . " " .$links . " ". $nextLink;
-        // $links.= $nextLink;
-        return View::render("layout/pagination/box",[
-            'links' => $allLinks
-        ]);
-    }
    
 }

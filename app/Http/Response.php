@@ -2,7 +2,7 @@
 namespace App\Http;
 
 class Response{
-
+  
     private $httpStatusCode;
 
     private $contentType;

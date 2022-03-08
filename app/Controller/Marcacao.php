@@ -55,13 +55,13 @@ class Marcacao extends Template{
             $paginacao = self::getPagination($pagination,$request);
         }
 
-        // $paginacao = (? : '');
+
 //         echo '<pre>';
-// print_r($pagination);
+// print_r( $_SESSION['usuario']['acess'] );
 // echo '</pre>';exit;
 
         $content = View::render('pages/marcacoes/lista',[
-            'turmas' => self::getTurmas($_SESSION['usuario']['id']),
+            'turmas' =>(($_SESSION['usuario']['acess']=='admin')? self::getTurmas() : self::getTurmas($_SESSION['usuario']['id'])) ,
             'tabela'    => $tabela,
             'pagination'=> $paginacao,
             'status'     => (isset($queryParams['status']))? self::getStatus($request) : ''
@@ -113,7 +113,7 @@ class Marcacao extends Template{
             $tabela = Alert::getError("Sem Marcacoes da turma ".$turma['descricao']." nessa data!");
         }
         $content = View::render('pages/marcacoes/lista',[
-            'turmas'     => self::getTurmas($_SESSION['usuario']['id']),
+            'turmas'     => (($_SESSION['usuario']['acess']=='admin')? self::getTurmas() : self::getTurmas($_SESSION['usuario']['id'])) ,
             'tabela'     => $tabela,
             'pagination' => ($pagination)?self::getPagination($pagination,$request): 'vazio',
             'status'     =>  ''
@@ -137,15 +137,15 @@ class Marcacao extends Template{
             $id_turma = $_SESSION['turma'];
             try
             {
-                    $estudantes = $marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id']);
-                    $total = count($estudantes);
+                $estudantes =($_SESSION['usuario']['acess'] == 'admin')?$marcacaoModel->getAllEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d')):$marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id']);
+                $total = count($estudantes);
     
                     $queryParams = $request->getQueryParams();
                     $page = $queryParams['page']?? '1';
                     
                     $pagination = new Pagination($total,$page,4);
-                    $estudantes = $marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id'],$pagination->getLimit());
-                    
+                    $estudantes = $estudantes =($_SESSION['usuario']['acess'] == 'admin')?$marcacaoModel->getAllEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$pagination->getLimit()):$marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id'],$pagination->getLimit());
+        
                 }catch(\Exception $ex)
             {   
                 $estudantes = [];
@@ -160,7 +160,7 @@ class Marcacao extends Template{
 
 
         $content = View::render('pages/marcacoes/nova',[
-            'turmas'     => self::getTurmas($_SESSION['usuario']['id']),
+            'turmas'     => (($_SESSION['usuario']['acess']=='admin')? self::getTurmas() : self::getTurmas($_SESSION['usuario']['id'])) ,
             'resultados' => $resultados,
             'pagination' => ($resultados!='')?self::getPagination($pagination,$request):'',
             'status' => (isset($queryParams['status'])?self::getStatus($request):'')
@@ -183,14 +183,15 @@ class Marcacao extends Template{
         $marcacaoModel = new MarcacaoModel();
         try
         {
-                $estudantes = $marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id']);
+                $estudantes =($_SESSION['usuario']['acess'] == 'admin')?$marcacaoModel->getAllEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d')):$marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id']);
                 $total = count($estudantes);
 
                 $queryParams = $request->getQueryParams();
                 $page = $queryParams['page']?? '1';
                 
                 $pagination = new Pagination($total,$page,4);
-                $estudantes = $marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id'],$pagination->getLimit());
+                $estudantes = $estudantes =($_SESSION['usuario']['acess'] == 'admin')?$marcacaoModel->getAllEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$pagination->getLimit()):$marcacaoModel->getEstudantesSemMarcacoesByTurma($id_turma,date('Y-m-d'),$_SESSION['usuario']['id'],$pagination->getLimit());
+        
                 $_SESSION['turma'] = $id_turma;
             }catch(\Exception $ex)
         {   
@@ -210,7 +211,7 @@ class Marcacao extends Template{
 // print_r($estudantes);
 // echo '</pre>';exit;
         $content = View::render('pages/marcacoes/nova',[
-            'turmas'     => self::getTurmas($_SESSION['usuario']['id']),
+            'turmas'     => (($_SESSION['usuario']['acess']=='admin')? self::getTurmas() : self::getTurmas($_SESSION['usuario']['id'])) ,
             'resultados' => $resultados,
             'pagination' => self::getPagination($pagination,$request),
             'status'     => ''
@@ -269,7 +270,7 @@ class Marcacao extends Template{
     public static function getRelatorio($request)
     {
         $content = View::render('pages/marcacoes/relatorio',[
-            'turmas'     => self::getAllTurmasRelatorio($_SESSION['usuario']['id']),
+            'turmas'     =>($_SESSION['usuario']['acess']=='admin')?self::getAllTurmasRelatorio(): self::getAllTurmasRelatorio($_SESSION['usuario']['id']),
             'status'     => self::getStatus($request)
         ]);
 
@@ -297,11 +298,11 @@ class Marcacao extends Template{
         $fim = $postVars['fim'];
 
         if($turma == 'todas'){
-            $estudantes = $marcacaoModel->getRelatorio($_SESSION['usuario']['id'],$inicio,$fim);
+            $estudantes = ($_SESSION['usuario']['acess']=='admin')?$marcacaoModel->getRelatorio($inicio,$fim): $marcacaoModel->getMyRelatorio($_SESSION['usuario']['id'],$inicio,$fim);
             $loadPdf->loadTable("RELATORIO DE FALTAS <br/> de {$inicio} à {$fim}",["NOME","TURMA","FALTAS"],$estudantes);
             $loadPdf->print();
         }else{
-            $estudantes = $marcacaoModel->getRelatorioByTurma($_SESSION['usuario']['id'],$turma,$inicio,$fim);
+            $estudantes = ($_SESSION['usuario']['acess']=='admin')?$marcacaoModel->getRelatorioByTurma($turma,$inicio,$fim): $marcacaoModel->getMyRelatorioByTurma($_SESSION['usuario']['id'],$turma,$inicio,$fim);
             $loadPdf->loadTable("RELATORIO DE FALTAS <br/> de {$inicio} à {$fim}",["NOME","TURMA","FALTAS"],$estudantes);
             $loadPdf->print();
         }
@@ -426,86 +427,7 @@ class Marcacao extends Template{
          return $cols;
      }
  
-    public static function getPrevLink($pages, $request){
-
-        $links = '';
-        foreach($pages as $page)
-        {
-            $pageNumber = 0;
-            if($page['current']){
-              $pageNumber = intval($page['page']);  
-              
-              if( ($pageNumber) == 1 ){
-                $link = $request->getURI()."?page=".$page['page'];
-                
-                  return View::render("layout/pagination/item_left",[
-                    'link' => $link,
-                    'disabled' => 'disabled'
-                  ]);
-              }else{
-                $link = $request->getURI()."?page=".($pageNumber - 1);
-               
-                return View::render("layout/pagination/item_left",[
-                  'link' => $link,
-                  'disabled' => ''
-                ]);
-              }
-            
-            }
-        }
-    }
-
-    public static function getNextLink($pages, $request){
-
-        $links = '';
-        foreach($pages as $page)
-        {
-            $pageNumber = 0;
-            if($page['current']){
-              $pageNumber = intval($page['page']);  
-              
-              if( ($pageNumber + 1) > count($pages) ){
-                $link = $request->getURI()."?page=".$page['page'];
-                  return View::render("layout/pagination/item_right",[
-                    'link' => $link,
-                    'disabled' => 'disabled'
-                  ]);
-              }else{
-                $link = $request->getURI()."?page=".($pageNumber + 1);
-                return View::render("layout/pagination/item_right",[
-                  'link' => $link,
-                  'disabled' => ''
-                ]);
-              }
-            
-            }
-        }
-    }
-    public static function getPagination($pagination,$request){
-        
-        $links = '';
-
-        foreach($pagination->getPages() as $page)
-        {
-            $link = $request->getURI()."?page=".$page['page'];
-            
-            $links .= View::render("layout/pagination/item",[
-                'link' => $link,
-                'item' => $page['page'],
-                'active' => ($page['current'])? 'active' :''
-            ]);
-        }
-        $prevLinK = self::getPrevLink($pagination->getPages(),$request);
-        $nextLink = self::getNextLink($pagination->getPages(),$request);
-        
-        $allLinks = $prevLinK . " " .$links . " ". $nextLink;
-        // $links.= $nextLink;
-        return View::render("layout/pagination/box",[
-            'links' => $allLinks
-        ]);
-    }
-
-
+    
 
 
 

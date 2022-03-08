@@ -4,8 +4,10 @@ use App\Utils\Conexao;
 
 class TurmaModel{
 
-    public function getAll(){
-        $sql = "SELECT * FROM turmas";
+    public function getAll($limit = null){
+        $limit = strlen($limit) ? 'LIMIT '.$limit : '';
+
+        $sql = "SELECT * FROM turmas ORDER BY id DESC ".$limit;
         $stmt = Conexao::getInstance()->prepare($sql);
         $stmt->execute();
         if($stmt->rowCount()>=1){
@@ -20,8 +22,10 @@ class TurmaModel{
      * @param int $id ID do usuario
      * @return array as turmas
      */
-    public function getMyTurmas($id){
-        $sql = "SELECT * FROM turmas WHERE id_user = :id";
+    public function getMyTurmas($id,$limit = null){
+        $limit = strlen($limit) ? 'LIMIT '.$limit : '';
+
+        $sql = "SELECT * FROM turmas WHERE id_user = :id ".$limit;
         $stmt = Conexao::getInstance()->prepare($sql);
         $stmt->bindParam(":id",$id);
         $stmt->execute();
@@ -87,7 +91,7 @@ class TurmaModel{
 
         $sql = "SELECT E.id as id,E.nome as nome,E.email,E.data_de_nascimento as datas from estudante_na_turma ET 
                 INNER JOIN estudantes E ON (E.id = ET.id_estudante)
-                INNER JOIN turmas T ON(ET.id_turma = T.id) WHERE T.id = :id_turma ".$limit;
+                INNER JOIN turmas T ON(ET.id_turma = T.id) WHERE T.id = :id_turma ORDER BY E.id DESC ".$limit;
         $stmt = Conexao::getInstance()->prepare($sql);
         $stmt->bindParam(":id_turma",$id_turma);
         $stmt->execute();

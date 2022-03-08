@@ -20,12 +20,12 @@ class Home extends Template{
         $marcacaoModel = new MarcacaoModel();
         // print_r($_SESSION['usuario']);
 
-        $totalEstudantes = count($turmaModel->getMyEstudantesNaTurma($_SESSION['usuario']['id']));
-        $totalTurmas = count($turmaModel->getMyTurmas($_SESSION['usuario']['id']));
+        $totalEstudantes = count(($_SESSION['usuario']['acess']=='admin')?$turmaModel->getAllEstudantesNaTurma():$turmaModel->getMyEstudantesNaTurma($_SESSION['usuario']['id']));
+        $totalTurmas = count(($_SESSION['usuario']['acess']=='admin')?$turmaModel->getAll():$turmaModel->getMyTurmas($_SESSION['usuario']['id']));
         $totalUsers = count($userModel->getAll());
         $presencas = count($marcacaoModel->getMyPresencas($_SESSION['usuario']['id']));
         $faltas = count($marcacaoModel->getMyFaltas($_SESSION['usuario']['id']));
-        $totalMarcacoes = count($marcacaoModel->getMarcacoes($_SESSION['usuario']['id']));
+        $totalMarcacoes = count(($_SESSION['usuario']['acess']=='admin')?$marcacaoModel->getTodasMarcacoes(): $marcacaoModel->getMarcacoes($_SESSION['usuario']['id']));
 
         $content = View::render('layout/dashboard',[
             'text1' => "Turmas",

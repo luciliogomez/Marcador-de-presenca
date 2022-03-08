@@ -11,84 +11,6 @@ use WilliamCosta\DatabaseManager\Pagination;
 class Turma extends Template{
 
     
-    public static function getPrevLink($pages, $request){
-
-        $links = '';
-        foreach($pages as $page)
-        {
-            $pageNumber = 0;
-            if($page['current']){
-              $pageNumber = intval($page['page']);  
-              
-              if( ($pageNumber) == 1 ){
-                $link = $request->getURI()."?page=".$page['page'];
-                
-                  return View::render("layout/pagination/item_left",[
-                    'link' => $link,
-                    'disabled' => 'disabled'
-                  ]);
-              }else{
-                $link = $request->getURI()."?page=".($pageNumber - 1);
-               
-                return View::render("layout/pagination/item_left",[
-                  'link' => $link,
-                  'disabled' => ''
-                ]);
-              }
-            
-            }
-        }
-    }
-
-    public static function getNextLink($pages, $request){
-
-        $links = '';
-        foreach($pages as $page)
-        {
-            $pageNumber = 0;
-            if($page['current']){
-              $pageNumber = intval($page['page']);  
-              
-              if( ($pageNumber + 1) > count($pages) ){
-                $link = $request->getURI()."?page=".$page['page'];
-                  return View::render("layout/pagination/item_right",[
-                    'link' => $link,
-                    'disabled' => 'disabled'
-                  ]);
-              }else{
-                $link = $request->getURI()."?page=".($pageNumber + 1);
-                return View::render("layout/pagination/item_right",[
-                  'link' => $link,
-                  'disabled' => ''
-                ]);
-              }
-            
-            }
-        }
-    }
-    public static function getPagination($pagination,$request){
-        
-        $links = '';
-
-        foreach($pagination->getPages() as $page)
-        {
-            $link = $request->getURI()."?page=".$page['page'];
-            
-            $links .= View::render("layout/pagination/item",[
-                'link' => $link,
-                'item' => $page['page'],
-                'active' => ($page['current'])? 'active' :''
-            ]);
-        }
-        $prevLinK = self::getPrevLink($pagination->getPages(),$request);
-        $nextLink = self::getNextLink($pagination->getPages(),$request);
-        
-        $allLinks = $prevLinK . " " .$links . " ". $nextLink;
-        // $links.= $nextLink;
-        return View::render("layout/pagination/box",[
-            'links' => $allLinks
-        ]);
-    }
 
 
     /**
@@ -98,14 +20,14 @@ class Turma extends Template{
         $turmaModel = new TurmaModel();
         $id_user = (int) $_SESSION['usuario']['id'];
         
-        $total = count($turmaModel->getMyTurmas($id_user));
+        $total = count(($_SESSION['usuario']['acess']=='admin')?$turmaModel->getAll():$turmaModel->getMyTurmas($id_user));
           
         $queryParams = $request->getQueryParams();
         $page = $queryParams['page']?? '1';
         
         $pagination = new Pagination($total,$page,4);
 
-        $turmas = $turmaModel->getMyTurmas($id_user);
+        $turmas = ($_SESSION['usuario']['acess']=='admin')?$turmaModel->getAll($pagination->getLimit()):$turmaModel->getMyTurmas($id_user,$pagination->getLimit());
         $turmas = self::includeTotalStudents($turmas);
         $tabela = self::getTabela(["ID","Descricao","Estudantes","Accoes"],
                                     ($turmas),
@@ -114,11 +36,11 @@ class Turma extends Template{
 
         $content = View::render("pages/turmas/lista",[
             'tabela' => $tabela,
-            'pagination' => '' 
+            'pagination' => self::getPagination($pagination,$request)
             // self::getPagination($pagination,$request)
         ]);
 
-        return self::getTemplate("Turmas","Turmas","Minhas Turmas",$content);
+        return self::getTemplate("Turmas","Turmas",($_SESSION['usuario']['acess']=='admin')?"TURMAS":"Minhas Turmas",$content);
     }
     
     private static function includeTotalStudents($turmas){
@@ -371,18 +293,18 @@ class Turma extends Template{
         // VALIDAR DUPLICACAO DE ESTUDANTE NA TURMA
         $estudante = $turmaModel->getStudentFromTurma($idEstudante,$idTurma);
         if($estudante != null){
-            $request->getRouter()->redirect("/adicionar-estudante-turma-{$idTurma}?status=dup_student");
+            $request->getRouter()->redirect("/adicionar-estudante-turma/{$idTurma}?status=dup_student");
         }
 
         try{
             if($turmaModel->insertStudentInTurma($idEstudante,$idTurma)){
-                $request->getRouter()->redirect("/adicionar-estudante-turma-{$idTurma}?status=added_student");
+                $request->getRouter()->redirect("/adicionar-estudante-turma/{$idTurma}?status=added_student");
             }else{
-                $request->getRouter()->redirect("/adicionar-estudante-turma-{$idTurma}?status=failed");
+                $request->getRouter()->redirect("/adicionar-estudante-turma/{$idTurma}?status=failed");
             }
         }catch(\Exception $ex)
         {
-            $request->getRouter()->redirect("/adicionar-estudante-turma-{$idTurma}?status=failed");
+            $request->getRouter()->redirect("/adicionar-estudante-turma/{$idTurma}?status=failed");
         }
 
     }

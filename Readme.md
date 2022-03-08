@@ -34,7 +34,3 @@
 ##
 
 #### O Sistema é distribuído de forma gratuita, sendo o seu código livre para quaisquer alterações.
-### Por favor, Contribua!  
-* Faça um fork
-* Crie o branch da sua contribuição
-* Solicite um Pull Request do seu novo branch

@@ -60,7 +60,7 @@ class Router{
 
         $params['variables'] = [];
 
-        $patternVariable = "-{(.*?)}-";
+        $patternVariable = "/{(.*?)}/";
         if(preg_match_all($patternVariable,$route,$matches)){
             $route = preg_replace($patternVariable,'(.*?)',$route);
             $params['variables'] = $matches[1];    

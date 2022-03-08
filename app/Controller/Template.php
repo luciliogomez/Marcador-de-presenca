@@ -258,20 +258,61 @@ class Template{
     }
 
 
-    public static function getPagination($pagination,$request){
-        
+    public static function getPagination($pagination,$request,$search = null){
+        $search = strlen($search)? "&search=".$search: '';
         $links = '';
 
+        $totalPages = count($pagination->getPages());
+        $lastPage = $pagination->getPages()[$totalPages-1]?? '';
+        $lastPage = $lastPage['page']??'';
         foreach($pagination->getPages() as $page)
         {
-            $link = $request->getURI()."?page=".$page['page'];
+            $link = $request->getURI()."?page=".$page['page'].$search;
             
-            $links .= View::render("layout/pagination/item",[
-                'link' => $link,
-                'item' => $page['page'],
-                'active' => ($page['current'])? 'active' :''
-            ]);
+            if($totalPages > 10 && intval($page['page'])>10)
+            {
+                $jump = 2;
+                if(intval($lastPage) <= 20)
+                {
+                    $jump = 2;
+                }
+                else if(intval($lastPage) <= 40)
+                {
+                    $jump = 4;
+                }
+                else{
+                    $jump = 5;
+                }
+                $penultima = intval($lastPage)-1;
+                $antePenultima = $penultima-1;
+                $proximo = null;
+                
+                $anterior = (intval($page['page'])) - 1;
+                $prev = $pagination->getPages()[$anterior-1];
+                
+                if( (intval($page['page']) % $jump == 0 ) || (intval($page['page']) == intval($lastPage)) 
+                || ( intval($page['page']) == $penultima) || ( intval($page['page']) == $antePenultima ) 
+                || $page['current'] || $prev['current']){
+                    
+                    $links .= View::render("layout/pagination/item",[
+                        'link' => $link,
+                        'item' => $page['page'],
+                        'active' => ($page['current'])? 'active' :''
+                    ]);
+                }
+
+            }else{
+                
+                $links .= View::render("layout/pagination/item",[
+                    'link' => $link,
+                    'item' => $page['page'],
+                    'active' => ($page['current'])? 'active' :''
+                ]);
+
+            }
         }
+        
+
         $prevLinK = self::getPrevLink($pagination->getPages(),$request);
         $nextLink = self::getNextLink($pagination->getPages(),$request);
         

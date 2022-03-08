@@ -90,7 +90,7 @@ $router->post("/novoestudante",[
 ]);
 
 // Rota para a pagina de visualizacao de estudante [não chegou a ser usada]
-$router->get("/estudante-{idEstudante}-view",[
+$router->get("/estudante/{idEstudante}/view",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -99,8 +99,8 @@ $router->get("/estudante-{idEstudante}-view",[
     }
 ]);
 
-// Rota para a pagina remoção de um estudante de certa turma
-$router->get("/estudante-{idEstudante}-delete",[
+// Rota para a pagina remoção de um estudante de certa turma[GET]
+$router->get("/estudante/{idEstudante}/delete",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -109,8 +109,8 @@ $router->get("/estudante-{idEstudante}-delete",[
     }
 ]);
 
-// Rota que remove um estudante de certa turma
-$router->post("/estudante-{idEstudante}-delete",[
+// Rota que remove um estudante de certa turma [POST]
+$router->post("/estudante/{idEstudante}/delete",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -157,7 +157,7 @@ $router->post("/nova-turma",[
 ]);
 
 // rota que renderiza a pagina  para confirmacao de eliminacao de uma turma
-$router->get("/turma-{idTurma}-delete",[
+$router->get("/turma/{idTurma}/delete",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -168,7 +168,7 @@ $router->get("/turma-{idTurma}-delete",[
 
 
 // rota que remove uma turma
-$router->post("/turma-{idTurma}-delete",[
+$router->post("/turma/{idTurma}/delete",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -179,7 +179,7 @@ $router->post("/turma-{idTurma}-delete",[
 
 
 // rota que renderiza a lista de estudantes de uma turma
-$router->get("/turma-{idTurma}-view",[
+$router->get("/turma/{idTurma}/view",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -190,7 +190,7 @@ $router->get("/turma-{idTurma}-view",[
 
 // rota para adicionar estudantes em uma certa turma
 //rota que renderiza a lista de estudantes(todos), que podem ser adicionados em uma turma
-$router->get("/adicionar-estudante-turma-{idTurma}",[
+$router->get("/adicionar-estudante-turma/{idTurma}",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -201,7 +201,7 @@ $router->get("/adicionar-estudante-turma-{idTurma}",[
 
 
 // rota para adicionar estudantes em uma certa turma
-$router->get("/add-estudante-{idEstudante}-turma-{idTurma}",[
+$router->get("/add-estudante/{idEstudante}/turma/{idTurma}",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -258,7 +258,7 @@ $router->post("/nova-marcacao",[
 
 
 // rota para marcar o estado "PRESENTE" de um aluno
-$router->get("/marcacao-turma-{idTurma}-estudante-{idEstudante}-presente",[
+$router->get("/marcacao/turma/{idTurma}/estudante/{idEstudante}/presente",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -268,7 +268,7 @@ $router->get("/marcacao-turma-{idTurma}-estudante-{idEstudante}-presente",[
 ]);
 
 // rota para marcar o estado "AUSENTE" de um aluno
-$router->get("/marcacao-turma-{idTurma}-estudante-{idEstudante}-ausente",[
+$router->get("/marcacao/turma/{idTurma}/estudante/{idEstudante}/ausente",[
     'middlewares'=>[
         'require-admin-login'
     ],
@@ -330,7 +330,7 @@ $router->get("/novo-usuario",[
 
 
 // rota para bloquear usuario [Não poderá fazer login no sistema]
-$router->get("/usuario-{idUsuario}-bloquear",[
+$router->get("/usuario/{idUsuario}/bloquear",[
     'middlewares'=>[
         'require-admin-login',
         "require-admin-access"
@@ -341,7 +341,7 @@ $router->get("/usuario-{idUsuario}-bloquear",[
 ]);
 
 // rota para desbloquear utilizadores [poderá fazer login no sistema]
-$router->get("/usuario-{idUsuario}-desbloquear",[
+$router->get("/usuario/{idUsuario}/desbloquear",[
     'middlewares'=>[
         'require-admin-login',
         "require-admin-access"
